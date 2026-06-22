@@ -27,7 +27,7 @@ def adicionar_remover_frutas():
     }
 
     while True:
-        acao = input("1. Adicionar, 2. Remover, 3. Sair")    
+        acao = input("1. Adicionar / 2. Remover / 3. Sair")    
 
         if acao == "1":
             nome  = input("Nome da fruta: ")
@@ -86,9 +86,9 @@ def inventario_loja():
     STOCK_MINIMO = 5
 
     while True:
-        acao = input("\nadicionar, vender, remover, inventário ou sair: ")
+        acao = input("\n1. Adicionar / 2. Vender / 3. Remover / 4. Inventário / 5. Sair: ")
 
-        if acao == "adicionar":
+        if acao == "1":
             nome = input("Nome do produto: ")
             quantidade = int(input("Quantidade a adicionar: "))
             if nome in produtos:
@@ -97,7 +97,7 @@ def inventario_loja():
                 produtos[nome] = quantidade
             print(f"{nome} - stock atual: {produtos[nome]} unidades.")
 
-        elif acao == "vender":
+        elif acao == "2":
             nome = input("Nome do produto: ")
             if nome not in produtos:
                 print(f"{nome} não existe no inventário.")
@@ -111,7 +111,7 @@ def inventario_loja():
                     if produtos[nome] < STOCK_MINIMO:
                         print(f"AVISO: {nome} tem apenas {produtos[nome]} unidades (mínimo: {STOCK_MINIMO})!")
 
-        elif acao == "remover":
+        elif acao == "3":
             nome = input("Nome do produto: ")
             if nome in produtos:
                 del produtos[nome]
@@ -119,13 +119,13 @@ def inventario_loja():
             else:
                 print(f"{nome} não existe.")
 
-        elif acao == "inventário":
+        elif acao == "4":
             print("\nInventário atual")
             for nome, qtd in produtos.items():
                 aviso = "STOCK BAIXO" if qtd < STOCK_MINIMO else ""
                 print(f"{nome}: {qtd} unidades{aviso}")
 
-        elif acao == "sair":
+        elif acao == "5":
             break
         else:
             print("Ação inválida.")
@@ -181,7 +181,7 @@ def adicionar_contactos():
 
 def agenda_de_contactos():
     while True:
-        acao = input("Ação (1. Adicionar/2. Procurar/3. Remover/4. Sair): ").strip().lower()
+        acao = input("Ação (1. Adicionar / 2. Procurar / 3. Remover / 4. Sair): ").strip().lower()
 
         if acao == "1":
             adicionar_contactos()
