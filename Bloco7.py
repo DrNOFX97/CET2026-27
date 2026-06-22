@@ -50,7 +50,7 @@ def adicionar_remover_frutas():
 
 # 3. Contar ocorrências de palavras
 def contar_ocorrencias_palavras():
-    frase = input("Diz-me uma frase: ")
+    frase = input("Diz-me uma frase: ").lower().strip().split()
     frequencia = {}
 
     for palavra in frase:
