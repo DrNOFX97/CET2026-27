@@ -1,7 +1,7 @@
 # 1. Criar e aceder a um dicionario
 # Perguntar os dados
 nome = input("Como te chamas? ")
-idade = input("Quantos anos tens? ")
+idade = int(input("Quantos anos tens? "))
 cidade = input("Onde moras? ")
 
 # Criar o dicionário
@@ -13,9 +13,9 @@ pessoa = {
 
 # Aceder e imprimir cada valor pela sua chave
 print("\nInformações disponíveis:")
-print("Nome: ", pessoa["nome"])
-print("Idade: ", pessoa["idade"])
-print("Cidade: ", pessoa["cidade"])
+print(f"Nome: {pessoa['nome']}")
+print(f"Idade: {pessoa['idade']}")
+print(f"Cidade: {pessoa['cidade']}")
 
 # 2. Adicionar e remover entradas
 # Dado um dicionário de frutas e os seus preços,constroi um ciclo while para adicionar e remover frutas.
@@ -27,7 +27,7 @@ frutas = {
 }
 
 while True:
-    acao = input("Adicionar, remover ou sair? ")
+    acao = input("Adicionar, remover ou sair? ").strip().lower()
 
     if acao == "adicionar":
         nome  = input("Nome da fruta: ")
@@ -63,7 +63,7 @@ print("Frequência de palavras:", frequencia)
 
 # 4. Turma e notas Dado um dicionário com nomes de alunos e as suas notas, calcula
 # a média da turma, o aluno com melhor nota e o aluno com pior nota.
-alunos = {"ana": 15, "joão": 12, "mariana": 17, " Pedro": 10}
+alunos = {"ana": 15, "joão": 12, "mariana": 17, "pedro": 10}
 
 media = sum(alunos.values()) / len(alunos)
 melhor = max(alunos.items(), key=lambda x: x[1])
@@ -120,7 +120,7 @@ while True:
     elif acao == "inventário":
         print("\nInventário atual")
         for nome, qtd in produtos.items():
-            aviso = "STOCK BAIXO" if qtd < STOCK_MINIMO else ""
+            aviso = " ⚠ STOCK BAIXO" if qtd < STOCK_MINIMO else ""
             print(f"{nome}: {qtd} unidades{aviso}")
 
     elif acao == "sair":
@@ -143,7 +143,7 @@ alunos = {
 
 # Mostrar informação de cada aluno
 for aluno, dados in alunos.items():
-    print(f" {aluno}")
+    print(f"{aluno}")
     print(f"Nome:  {dados['nome']}")
     print(f"Idade: {dados['idade']} anos")
     print(f"Nota:  {dados['nota']}/20")
@@ -207,13 +207,17 @@ while True:
 # Usar tradutor online
 
 # ! pip install deep-translator
-from deep_translator import GoogleTranslator
-tradutor = GoogleTranslator(source="pt", target="en")
+try:
+    from deep_translator import GoogleTranslator
+    tradutor = GoogleTranslator(source="pt", target="en")
+except ImportError:
+    print("Módulo deep-translator não instalado. Corre: pip install deep-translator")
+    tradutor = None
 
-while True:
-    palavra = input("Palavra PT (ou 'sair'): ").strip()
-    if palavra == "sair":
-        break
-
-    traducao = tradutor.translate(palavra)
-    print(f"→ {traducao}")
+if tradutor:
+    while True:
+        palavra = input("Palavra PT (ou 'sair'): ").strip()
+        if palavra == "sair":
+            break
+        traducao = tradutor.translate(palavra)
+        print(f"→ {traducao}")
