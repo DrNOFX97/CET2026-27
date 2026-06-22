@@ -1,223 +1,272 @@
 # 1. Criar e aceder a um dicionario
-# Perguntar os dados
-nome = input("Como te chamas? ")
-idade = int(input("Quantos anos tens? "))
-cidade = input("Onde moras? ")
+def dados_pessoais():
+    nome = input("Como te chamas? ")
+    idade = int(input("Quantos anos tens? "))
+    cidade = input("Onde moras? ")
 
-# Criar o dicionário
-pessoa = {
-    "nome": nome,
-    "idade": idade,
-    "cidade": cidade
-}
+    # Criar o dicionário
+    pessoa = {
+        "nome": nome,
+        "idade": idade,
+        "cidade": cidade
+    }
 
-# Aceder e imprimir cada valor pela sua chave
-print("\nInformações disponíveis:")
-print(f"Nome: {pessoa['nome']}")
-print(f"Idade: {pessoa['idade']}")
-print(f"Cidade: {pessoa['cidade']}")
+    print("\nInformações disponíveis:")
+    print(f"Nome: {pessoa['nome']}")
+    print(f"Idade: {pessoa['idade']}")
+    print(f"Cidade: {pessoa['cidade']}")
+
+    return pessoa
 
 # 2. Adicionar e remover entradas
-# Dado um dicionário de frutas e os seus preços,constroi um ciclo while para adicionar e remover frutas.
+def adicionar_remover_frutas():
+    frutas = {
+        "maçã":  1.20,
+        "banana": 0.80,
+        "laranja": 0.95
+    }
 
-frutas = {
-    "maçã":  1.20,
-    "banana": 0.80,
-    "laranja": 0.95
-}
+    while True:
+        acao = input("Adicionar, remover ou sair? ").strip().lower()
 
-while True:
-    acao = input("Adicionar, remover ou sair? ").strip().lower()
+        if acao == "adicionar":
+            nome  = input("Nome da fruta: ")
+            preco = float(input("Preço (€/Kg): "))
+            frutas[nome] = preco
+            print(f"✓ '{nome}' adicionada.")
 
-    if acao == "adicionar":
-        nome  = input("Nome da fruta: ")
-        preco = float(input("Preço (€/Kg): "))
-        frutas[nome] = preco
-        print(f"✓ '{nome}' adicionada.")
-
-    elif acao == "remover":
-        nome = input("Nome da fruta: ")
-        if nome in frutas:
-            del frutas[nome]
-            print(f"✓ '{nome}' removida.")
-        else:
-            print(f"✗ '{nome}' não existe.")
-
-    elif acao == "sair":
-        break
-
-print("Dicionário final:", frutas)
-
-# 3. Contar ocorrências de palavras Pede uma frase ao utilizador e conta quantas
-# vezes cada palavra aparece, guardando o resultado num dicionário.
-frase = input("Diz-me uma frase:").lower().strip().split()
-frequencia = {}
-
-for palavra in frase:
-    if palavra in frequencia:
-        frequencia[palavra] += 1
-    else:
-        frequencia[palavra] = 1
-
-print("Frequência de palavras:", frequencia)
-
-# 4. Turma e notas Dado um dicionário com nomes de alunos e as suas notas, calcula
-# a média da turma, o aluno com melhor nota e o aluno com pior nota.
-alunos = {"ana": 15, "joão": 12, "mariana": 17, "pedro": 10}
-
-media = sum(alunos.values()) / len(alunos)
-melhor = max(alunos.items(), key=lambda x: x[1])
-pior = min(alunos.items(), key=lambda x: x[1])
-
-print("Média da turma:", media)
-print("Melhor aluno:", melhor[0], "com nota", melhor[1])
-print("Pior aluno:", pior[0], "com nota", pior[1])
-
-# 5. Inventário de loja 
-# Cria um inventário de produtos com nome e quantidade.
-# Permite adicionar stock, vender unidades e avisar quando um produto tiver menos
-# de 5 unidades.
-produtos = {
-    "pão": 12,
-    "leite": 32,
-    "queijo": 45
-}
-STOCK_MINIMO = 5
-
-while True:
-    acao = input("\nadicionar, vender, remover, inventário ou sair: ").strip().lower()
-    if acao == "adicionar":
-        nome = input("Nome do produto: ").strip().lower()
-        quantidade = int(input("Quantidade a adicionar: "))
-        if nome in produtos:
-            produtos[nome] += quantidade          # soma ao stock existente
-        else:
-            produtos[nome] = quantidade           # cria novo produto
-        print(f"{nome} → stock atual: {produtos[nome]} unidades.")
-
-    elif acao == "vender":
-        nome = input("Nome do produto: ").strip().lower()
-        if nome not in produtos:
-            print(f"{nome} não existe no inventário.")
-        else:
-            quantidade = int(input("Quantidade a vender: "))
-            if quantidade > produtos[nome]:
-                print(f"Stock insuficiente. Apenas {produtos[nome]} unidades disponíveis.")
+        elif acao == "remover":
+            nome = input("Nome da fruta: ")
+            if nome in frutas:
+                del frutas[nome]
+                print(f"✓ '{nome}' removida.")
             else:
-                produtos[nome] -= quantidade          # subtrai do stock
-                print(f"Vendidas {quantidade} unidades de {nome}.")
-                if produtos[nome] < STOCK_MINIMO:
-                    print(f"AVISO: {nome} tem apenas {produtos[nome]} unidades (mínimo: {STOCK_MINIMO})!")
+                print(f"✗ '{nome}' não existe.")
 
-    elif acao == "remover":
-        nome = input("Nome do produto: ").strip().lower()
-        if nome in produtos:
-            del produtos[nome]
-            print(f"{nome} removido do inventário.")
+        elif acao == "sair":
+            break
+
+    return frutas
+
+# 3. Contar ocorrências de palavras
+def contar_ocorrencias_palavras():
+    frase = input("Diz-me uma frase: ").lower().strip().split()
+    frequencia = {}
+
+    for palavra in frase:
+        if palavra in frequencia:
+            frequencia[palavra] += 1
         else:
-            print(f"{nome} não existe.")
+            frequencia[palavra] = 1
 
-    elif acao == "inventário":
-        print("\nInventário atual")
-        for nome, qtd in produtos.items():
-            aviso = " ⚠ STOCK BAIXO" if qtd < STOCK_MINIMO else ""
-            print(f"{nome}: {qtd} unidades{aviso}")
+    print("Frequência de palavras:", frequencia)
+    return frequencia
 
-    elif acao == "sair":
-        break
-    else:
-        print("Ação inválida.")
+# 4. Turma e notas
+def turma_e_notas():
+    alunos = {"ana": 15, "joão": 12, "mariana": 17, "pedro": 10}
 
-print("\nInventário final:", produtos)
+    media = sum(alunos.values()) / len(alunos)
+    melhor = max(alunos.items(), key=lambda x: x[1])
+    pior = min(alunos.items(), key=lambda x: x[1])
 
-# 6. Ficha de alunos 
-# Cria um dicionário de dicionários com informação de 3 alunos.
-# Cada aluno tem nome, idade e nota. Escreve um programa que mostre a
-# informação de cada aluno e no final diz qual tem a melhor nota. 
+    print("Média da turma:", media)
+    print("Melhor aluno:", melhor[0], "com nota", melhor[1])
+    print("Pior aluno:", pior[0], "com nota", pior[1])
 
-alunos = {
-    "aluno1": {"nome": "Ana", "idade": 16, "nota": 18},
-    "aluno2": {"nome": "Bruno", "idade": 17, "nota": 14},
-    "aluno3": {"nome": "Carla", "idade": 15, "nota": 19}
-}
+    return media, melhor, pior
 
-# Mostrar informação de cada aluno
-for aluno, dados in alunos.items():
-    print(f"{aluno}")
-    print(f"Nome:  {dados['nome']}")
-    print(f"Idade: {dados['idade']} anos")
-    print(f"Nota:  {dados['nota']}/20")
-    print("")
+# 5. Inventário de loja
+def inventario_loja():
+    produtos = {
+        "pão": 12,
+        "leite": 32,
+        "queijo": 45
+    }
+    STOCK_MINIMO = 5
 
-# Encontrar o aluno com melhor nota
-melhor = max(alunos.values(), key=lambda d: d["nota"])
-print(f"Melhor nota: {melhor['nome']} com {melhor['nota']}/20")
+    while True:
+        acao = input("\nadicionar, vender, remover, inventário ou sair: ").strip().lower()
+
+        if acao == "adicionar":
+            nome = input("Nome do produto: ").strip().lower()
+            quantidade = int(input("Quantidade a adicionar: "))
+            if nome in produtos:
+                produtos[nome] += quantidade
+            else:
+                produtos[nome] = quantidade
+            print(f"{nome} → stock atual: {produtos[nome]} unidades.")
+
+        elif acao == "vender":
+            nome = input("Nome do produto: ").strip().lower()
+            if nome not in produtos:
+                print(f"{nome} não existe no inventário.")
+            else:
+                quantidade = int(input("Quantidade a vender: "))
+                if quantidade > produtos[nome]:
+                    print(f"Stock insuficiente. Apenas {produtos[nome]} unidades disponíveis.")
+                else:
+                    produtos[nome] -= quantidade
+                    print(f"Vendidas {quantidade} unidades de {nome}.")
+                    if produtos[nome] < STOCK_MINIMO:
+                        print(f"AVISO: {nome} tem apenas {produtos[nome]} unidades (mínimo: {STOCK_MINIMO})!")
+
+        elif acao == "remover":
+            nome = input("Nome do produto: ").strip().lower()
+            if nome in produtos:
+                del produtos[nome]
+                print(f"{nome} removido do inventário.")
+            else:
+                print(f"{nome} não existe.")
+
+        elif acao == "inventário":
+            print("\nInventário atual")
+            for nome, qtd in produtos.items():
+                aviso = " ⚠ STOCK BAIXO" if qtd < STOCK_MINIMO else ""
+                print(f"{nome}: {qtd} unidades{aviso}")
+
+        elif acao == "sair":
+            break
+        else:
+            print("Ação inválida.")
+
+    print("\nInventário final:", produtos)
+    return produtos
+
+# 6. Ficha de alunos
+def ficha_de_alunos():
+    alunos = {
+        "aluno1": {"nome": "Ana", "idade": 16, "nota": 18},
+        "aluno2": {"nome": "Bruno", "idade": 17, "nota": 14},
+        "aluno3": {"nome": "Carla", "idade": 15, "nota": 19}
+    }
+
+    for aluno, dados in alunos.items():
+        print(f"{aluno}")
+        print(f"Nome:  {dados['nome']}")
+        print(f"Idade: {dados['idade']} anos")
+        print(f"Nota:  {dados['nota']}/20")
+        print("")
+
+    melhor = max(alunos.values(), key=lambda d: d["nota"])
+    print(f"Melhor nota: {melhor['nome']} com {melhor['nota']}/20")
 
 # 7. Agenda de contactos
-agenda = {"Maria": "912 345 678", "João": "963 111 222"}
+contactos = {}
 
-while True:
-    acao = input("Ação (adicionar/procurar/remover/sair): ").strip().lower()
+def remover_contactos():
+    print("Contactos: ", contactos)
+    nome = input("Nome: ").strip().title()
+    removido = contactos.pop(nome, None)
+    if removido:
+        print(f"{nome} removido.")
+    else:
+        print(f"{nome} não existe.")
+    return contactos
 
-    if acao == "adicionar":
-        nome = input("Nome: ").strip().title()
-        tel  = input("Telefone: ").strip()
-        agenda[nome] = tel
-        print(f"{nome} adicionado.")
+def procurar_contactos():
+    print("Contactos: ", contactos)
+    nome = input("Nome: ").strip().title()
+    resultado = contactos.get(nome, "Não encontrado.")
+    print(f"{nome}: {resultado}")
+    return contactos
 
-    elif acao == "procurar":
-        nome = input("Nome: ").strip().title()
-        if nome in agenda:
-            print(f"{nome}: {agenda[nome]}")
+def adicionar_contactos():
+    print("Contactos: ", contactos)
+    nome = input("Nome: ").strip().title()
+    tel  = input("Telefone: ").strip()
+    contactos[nome] = tel
+    print(f"{nome} adicionado.")
+    return contactos
+
+def agenda_de_contactos():
+    while True:
+        acao = input("Ação (adicionar/procurar/remover/sair): ").strip().lower()
+
+        if acao == "adicionar":
+            adicionar_contactos()
+        elif acao == "procurar":
+            procurar_contactos()
+        elif acao == "remover":
+            remover_contactos()
+        elif acao == "sair":
+            break
         else:
-            print(f"{nome} não encontrado.")
+            print("Ação inválida.")
 
-    elif acao == "remover":
-        nome = input("Nome: ").strip().title()
-        if nome in agenda:
-            del agenda[nome]
-            print(f"{nome} removido.")
-        else:
-            print(f"{nome} não existe.")
-
-    elif acao == "sair":
-        break
+    return contactos
 
 # 8. Tradutor PT → EN
-dicionario = {
-    "gato": "cat", "cão": "dog", "casa": "house",
-    "carro": "car", "livro": "book", "água": "water"
-    # ...
-}
+def tradutor_local():
+    dicionario = {
+        "gato": "cat", "cão": "dog", "casa": "house",
+        "carro": "car", "livro": "book", "água": "water"
+    }
 
-while True:
-    palavra = input("Palavra PT (ou 'sair'): ").strip().lower()
-    if palavra == "sair":
-        break
-    if palavra in dicionario:
-        print(f"→ {dicionario[palavra]}")
-    else:
-        print("Tradução não encontrada.")
-        nova = input("Indicar tradução? (Enter para saltar): ").strip().lower()
-        if nova:
-            dicionario[palavra] = nova
-            print(f"{palavra} → {nova} guardado.")
+    while True:
+        palavra = input("Palavra PT (ou 'sair'): ").strip().lower()
+        if palavra == "sair":
+            break
+        if palavra in dicionario:
+            print(f"→ {dicionario[palavra]}")
+        else:
+            print("Tradução não encontrada.")
+            nova = input("Indicar tradução? (Enter para saltar): ").strip().lower()
+            if nova:
+                dicionario[palavra] = nova
+                print(f"{palavra} → {nova} guardado.")
 
-# EXTRA
-# Usar tradutor online
+    return dicionario
 
+# EXTRA - Tradutor online (Google)
 # ! pip install deep-translator
-try:
-    from deep_translator import GoogleTranslator
-    tradutor = GoogleTranslator(source="pt", target="en")
-except ImportError:
-    print("Módulo deep-translator não instalado. Corre: pip install deep-translator")
-    tradutor = None
+def tradutor_online():
+    try:
+        from deep_translator import GoogleTranslator
+        tradutor = GoogleTranslator(source="pt", target="en")
+    except ImportError:
+        print("Módulo não instalado. Corre: pip install deep-translator")
+        return
 
-if tradutor:
     while True:
         palavra = input("Palavra PT (ou 'sair'): ").strip()
         if palavra == "sair":
             break
         traducao = tradutor.translate(palavra)
         print(f"→ {traducao}")
+
+def menu():
+    while True:
+        print("\nMenu:")
+        print("1. Contar ocorrências de palavras")
+        print("2. Turma e notas")
+        print("3. Inventário de loja")
+        print("4. Ficha de alunos")
+        print("5. Agenda de contactos")
+        print("6. Tradutor PT → EN")
+        print("7. Tradutor Online (Google)")
+        print("8. Sair")
+
+        opcao = input("Escolha uma opção: ").strip()
+
+        if opcao == "1":
+            contar_ocorrencias_palavras()
+        elif opcao == "2":
+            turma_e_notas()
+        elif opcao == "3":
+            inventario_loja()
+        elif opcao == "4":
+            ficha_de_alunos()
+        elif opcao == "5":
+            agenda_de_contactos()
+        elif opcao == "6":
+            tradutor_local()
+        elif opcao == "7":
+            tradutor_online()
+        elif opcao == "8":
+            break
+        else:
+            print("Opção inválida. Tente novamente.")
+
+if __name__ == "__main__":
+    menu()
