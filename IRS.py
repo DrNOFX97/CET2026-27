@@ -1,4 +1,4 @@
-def calcular_irs(salario):
+def calcular_irs(salario_anual):
     escaloes = {
         8342: 12.5,
         12587: 15.7,
@@ -11,14 +11,20 @@ def calcular_irs(salario):
     }
     
     for limite, taxa in escaloes.items():
-        if salario <= limite:
+        if salario_anual <= limite:
             return taxa
     return 48.0
 
-salario = float(input("Qual é o teu salário anual? "))
-taxa = calcular_irs(salario)
-valor_irs = (taxa / 100) * salario
 
-print(f"O teu escalão de IRS é: {taxa}%")
-print(f"Vais pagar em IRS: €{valor_irs:.2f}")
-print(f"O teu salário líquido é: €{salario - valor_irs:.2f}")
+def main():
+    salario = float(input("Qual é o teu salário anual? "))
+    taxa = calcular_irs(salario)
+    valor_irs = (taxa / 100) * salario
+
+    print(f"O teu escalão de IRS é: {taxa}%")
+    print(f"Vais pagar em IRS: €{valor_irs:.2f}")
+    print(f"O teu salário líquido é: €{salario - valor_irs:.2f}")
+
+
+if __name__ == "__main__":
+    main()
