@@ -12,7 +12,7 @@ def ler_ficheiro(ficheiro):
             conteudo = "".join(linhas)
             print(conteudo.upper())
             print(conteudo.lower())
-            return conteudo  # ← adicionado
+            return conteudo  
     except FileNotFoundError:
         print("Não encontro o ficheiro")
     except Exception as e:
