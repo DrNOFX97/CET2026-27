@@ -1,0 +1,3 @@
+olá mundo!
+bem-vindo ao cet!
+eu gosto de python
