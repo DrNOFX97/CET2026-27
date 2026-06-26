@@ -1,86 +1,225 @@
-# 1. Soma de argumentos variáveis
+import re
+import csv
+from datetime import datetime, timedelta
+
+
+# Ex. 1 — Soma de argumentos variáveis
 def somar(*args):
     return sum(args)
 
-# 2. Criar e ler ficheiro mensagem.txt
-def criar_ficheiro():
-    with open("mensagem.txt", "w", encoding="utf-8") as f:
-        f.write("Olá mundo!\nBem-vindo ao CET!\nEu gosto de Python")
-    print("Ficheiro 'mensagem.txt' criado com sucesso.")
 
-# 2.a Ler o ficheiro e dar print do texto em maiúscula
-# 2.b Ler o ficheiro e dar print do texto em minúscula
-def ler_ficheiro(ficheiro):
+# Ex. 2 — Criar e ler ficheiro
+def criar_ler_ficheiro():
+    with open("mensagem.txt", "w", encoding="utf-8") as f:
+        f.write("Olá mundo!\nBem-vindo ao CET!\nEu gosto de Python\n")
+    print("'mensagem.txt' criado.\n")
+
     try:
-        with open(ficheiro, "r", encoding="utf-8") as f:
+        with open("mensagem.txt", "r", encoding="utf-8") as f:
             linhas = f.readlines()
-            for linha in linhas:
-                print(linha, end="")
-            print(f"\nNúmero de linhas: {len(linhas)}")
-            conteudo = "".join(linhas)
-            print()
-            print(conteudo.upper())
-            print()
-            print(conteudo.lower())
-            return conteudo
+
+        conteudo = "".join(linhas)
+
+        print("- Normal -")
+        for linha in linhas:
+            print(linha, end="")
+        print(f"\nNúmero de linhas: {len(linhas)}")
+
+        print("- Maiúsculas -")
+        print(conteudo.upper())
+
+        print("- Minúsculas -")
+        print(conteudo.lower())
+
     except FileNotFoundError:
-        print("Não encontro o ficheiro")
+        print("Ficheiro não encontrado.")
     except Exception as e:
         print(f"Erro: {e}")
 
-# 3. Escrever e exportar
-def escrever_e_exportar():
-    frase = input("Escreve as tuas notas: ")
+
+# Ex. 3 — Escrever num ficheiro
+def escrever_nota():
+    nota = input("Escreve uma nota: ").strip()
     with open("notas.txt", "a", encoding="utf-8") as f:
-        f.write(frase + "\n")
-    print("Frase guardada em 'notas.txt'.")
+        f.write(nota + "\n")
+    print("Nota guardada em 'notas.txt'.")
 
-    with open("notas.txt", "r", encoding="utf-8") as f:
-        conteudo = f.read()
-    with open("maiusculas.txt", "w", encoding="utf-8") as f:
-        f.write(conteudo.upper())
-    with open("minusculas.txt", "w", encoding="utf-8") as f:
-        f.write(conteudo.lower())
-    with open("revertido.txt", "w", encoding="utf-8") as f:
-        f.write(reverter_palavras(conteudo))
-    print("Ficheiros atualizados.")
 
+# Ex. 4 — Transformar ficheiro
 def reverter_palavras(conteudo):
     linhas = conteudo.splitlines()
-    resultado = []
-    for linha in linhas:
-        palavras = linha.split()
-        palavras_revertidas = [palavra[::-1] for palavra in palavras]
-        resultado.append(" ".join(palavras_revertidas))
-    return "\n".join(resultado)
+    return "\n".join(
+        " ".join(p[::-1] for p in linha.split())
+        for linha in linhas
+    )
 
-def menu():
+def transformar_ficheiro():
+    entrada = input("Ficheiro de entrada: ").strip()
+    saida   = input("Ficheiro de saída: ").strip()
+
+    try:
+        with open(entrada, "r", encoding="utf-8") as f:
+            conteudo = f.read()
+
+        resultado  = "- Maiúsculas -\n"
+        resultado += conteudo.upper() + "\n"
+        resultado += "- Minúsculas -\n"
+        resultado += conteudo.lower() + "\n"
+        resultado += "- Palavras Revertidas -\n"
+        resultado += reverter_palavras(conteudo) + "\n"
+
+        with open(saida, "w", encoding="utf-8") as f:
+            f.write(resultado)
+
+        print(f"'{saida}' criado.\n")
+        print(resultado)
+
+    except FileNotFoundError:
+        print(f"'{entrada}' não encontrado.")
+    except Exception as e:
+        print(f"Erro: {e}")
+
+
+# Ex. 5 — Tabela de alunos
+def guardar_turma():
+    alunos = []
 
     while True:
-        print("\nMenu - Ficheiros:")
-        print("1. Soma de argumentos variáveis")
-        print("2. Criar ficheiro mensagem.txt")
-        print("3. Ler ficheiro")
-        print("4. Escrever e exportar")
-        print("5. Sair")
+        nome = input("Nome (ou 'sair'): ")
+        if nome.lower() == "sair":
+            break
+        nota = input("Nota: ")
+        alunos.append((nome, nota))
 
-        opcao = input("\nEscolha uma opção: ").strip()
+    with open("turma.txt", "w", encoding="utf-8") as f:
+        f.write("Nome           | Nota\n")
+        f.write("-" * 30 + "\n")
+        for nome, nota in alunos:
+            f.write(f"{nome:<15}| {nota}\n")
+
+    print("Guardado em 'turma.txt'.")
+
+
+# Ex. 6 — Converter data
+def converter_data():
+    data = input("Introduz a data (DD MM YYYY): ").strip()
+    dia, mes, ano = data.split()
+    print(f"{ano}/{mes}/{dia}")
+
+
+# Ex. 7 — Subtrair uma semana
+def subtrair_semana():
+    data = input("Introduz a data (DD/MM/YYYY): ").strip()
+    dt = datetime.strptime(data, "%d/%m/%Y")
+    resultado = dt - timedelta(weeks=1)
+    print(resultado.strftime("%d/%m/%Y"))
+
+
+# Ex. 8 — Diferença em dias
+def diferenca_datas():
+    data1 = input("Primeira data (DD/MM/YYYY): ").strip()
+    data2 = input("Segunda data (DD/MM/YYYY): ").strip()
+    dt1 = datetime.strptime(data1, "%d/%m/%Y")
+    dt2 = datetime.strptime(data2, "%d/%m/%Y")
+    diferenca = abs((dt1 - dt2).days)
+    print(f"Diferença: {diferenca} dias")
+
+
+# Ex. 9 — Validar email
+def validar_email():
+    email = input("Introduz o email: ").strip()
+    padrao = r"[^@]+@[^@]+\.[a-zA-Z]{2,3}"
+    if re.match(padrao, email):
+        print("Email válido")
+    else:
+        print("Email inválido")
+
+
+# Ex. 10 — CSV vendas
+def criar_csv():
+    vendas = [
+        ("2026-01-05", "Pao",      "Alimentacao", 10, 0.50),
+        ("2026-01-08", "Leite",    "Alimentacao",  5, 0.80),
+        ("2026-01-10", "Caneta",   "Papelaria",   20, 0.30),
+        ("2026-01-12", "Caderno",  "Papelaria",    8, 2.50),
+        ("2026-01-15", "Cafe",     "Alimentacao", 15, 0.90),
+        ("2026-01-18", "Borracha", "Papelaria",   12, 0.20),
+        ("2026-01-20", "Sumo",     "Alimentacao",  6, 1.20),
+        ("2026-01-22", "Marcador", "Papelaria",   10, 1.50),
+        ("2026-01-25", "Agua",     "Alimentacao", 30, 0.50),
+        ("2026-01-28", "Pasta",    "Papelaria",    4, 5.00),
+    ]
+    with open("vendas.csv", "w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        writer.writerow(["data", "produto", "categoria", "quantidade", "preco_unit_s_iva"])
+        writer.writerows(vendas)
+    print("'vendas.csv' criado.")
+
+
+def adicionar_iva():
+    IVA = 1.23
+    with open("vendas.csv", "r", encoding="utf-8") as f:
+        linhas = list(csv.reader(f))
+    linhas[0].append("preco_unit_c_iva")
+    for linha in linhas[1:]:
+        preco_com_iva = round(float(linha[4]) * IVA, 2)
+        linha.append(str(preco_com_iva))
+    with open("vendas.csv", "w", newline="", encoding="utf-8") as f:
+        csv.writer(f).writerows(linhas)
+    print("Preço com IVA adicionado em vendas.csv.")
+
+
+# Menu
+def menu():
+    while True:
+        print("\nBloco 8")
+        print(" 1. Soma de argumentos variáveis")
+        print(" 2. Criar e ler ficheiro mensagem.txt")
+        print(" 3. Escrever nota em notas.txt")
+        print(" 4. Transformar ficheiro")
+        print(" 5. Tabela de alunos - turma.txt")
+        print(" 6. Converter data DD MM YYYY - YYYY/MM/DD")
+        print(" 7. Subtrair uma semana a uma data")
+        print(" 8. Diferença em dias entre duas datas")
+        print(" 9. Validar email")
+        print("10. Criar vendas.csv")
+        print("11. Adicionar coluna IVA ao vendas.csv")
+        print(" 0. Sair")
+
+        opcao = input("\nOpção: ")
 
         if opcao == "1":
-            numeros = input("Introduz números separados por espaço: ").split()
-            numeros = list(map(int, numeros))
-            print(f"Soma: {somar(*numeros)}")
+            try:
+                nums = list(map(int, input("Números: ").split()))
+                print(f"Soma: {somar(*nums)}")
+            except ValueError:
+                print("Introduz apenas números.")
         elif opcao == "2":
-            criar_ficheiro()
+            criar_ler_ficheiro()
         elif opcao == "3":
-            ler_ficheiro("mensagem.txt")
+            escrever_nota()
         elif opcao == "4":
-            escrever_e_exportar()
+            transformar_ficheiro()
         elif opcao == "5":
+            guardar_turma()
+        elif opcao == "6":
+            converter_data()
+        elif opcao == "7":
+            subtrair_semana()
+        elif opcao == "8":
+            diferenca_datas()
+        elif opcao == "9":
+            validar_email()
+        elif opcao == "10":
+            criar_csv()
+        elif opcao == "11":
+            adicionar_iva()
+        elif opcao == "0":
             print("A sair...")
             break
         else:
-            print("Opção inválida. Tente novamente.")
+            print("Opção inválida.")
+
 
 if __name__ == "__main__":
     menu()
