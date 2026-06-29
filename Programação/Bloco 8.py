@@ -100,12 +100,27 @@ def guardar_turma():
     print("Guardado em 'turma.txt'.")
 
 
-# Ex. 6 — Converter data
+# Ex. 6 — Converter data em formato ISO e por extenso
+import locale
+from datetime import datetime, date
+
+locale.setlocale(locale.LC_TIME, "Portuguese")
+
 def converter_data():
     data = input("Introduz a data (DD MM YYYY): ").strip()
-    dia, mes, ano = data.split()
-    print(f"{ano}/{mes}/{dia}")
+    dt = date.strptime(data, "%d %m %Y")
+    hoje = date.today()
+    diferenca = (dt - hoje).days
 
+    print(dt.strftime("Formato ISO 8601: %Y-%m-%d"))
+    print(dt.strftime("Data: %A, %d de %B de %Y"))
+# Extra
+    if diferenca == 0:
+        print("→ É hoje!")
+    elif diferenca < 0:
+        print(f"→ Foi há {abs(diferenca)} dias.")
+    else:
+        print(f"→ Vai ser daqui a {diferenca} dias.")
 
 # Ex. 7 — Subtrair uma semana
 def subtrair_semana():
