@@ -1,6 +1,7 @@
 import re
 import csv
-from datetime import datetime, timedelta
+import locale
+from datetime import datetime, timedelta, date
 
 
 # Ex. 1 — Soma de argumentos variáveis
@@ -101,9 +102,6 @@ def guardar_turma():
 
 
 # Ex. 6 — Converter data em formato ISO e por extenso
-import locale
-from datetime import datetime, date
-
 locale.setlocale(locale.LC_TIME, "Portuguese")
 
 def converter_data():
@@ -114,6 +112,7 @@ def converter_data():
 
     print(dt.strftime("Formato ISO 8601: %Y-%m-%d"))
     print(dt.strftime("Data: %A, %d de %B de %Y"))
+    
 # Extra
     if diferenca == 0:
         print("→ É hoje!")
